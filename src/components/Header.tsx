@@ -1,29 +1,113 @@
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { useWallet } from "@suiet/wallet-kit";
+import Connected from "./ui/buttons/Connected";
+import Disconnected from "./ui/buttons/Disconnected";
+
 const Header = () => {
+  const { connected } = useWallet();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <div className="fixed top-0 border-b-[color:var(--Gray-Text,#9C9C9C)] bg-white flex w-full flex-col px-20 py-6 border-b-[0.5px] border-solid max-md:max-w-full max-md:px-5 z-10">
-      <div className="self-center flex w-full max-w-[1217px] items-start justify-between gap-5 max-md:max-w-full max-md:flex-wrap max-md:justify-center">
-        <div className="text-black text-xl font-bold self-center my-auto">
-          Strat-er
-        </div>
-        <div className="items-start self-stretch flex gap-0 max-md:max-w-full max-md:flex-wrap max-md:justify-center">
-          <div className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[145px] max-w-full px-9 py-4 rounded-md max-md:px-5">
-            Overview
+    <>
+      <div
+        className={cn(
+          "fixed top-0 bg-white flex w-full flex-col px-20 py-6  max-md:max-w-full max-md:px-5 z-50",
+          isMenuOpen
+            ? ""
+            : "border-b-[color:var(--Gray-Text,#9C9C9C)] border-b-[0.5px] border-solid"
+        )}
+      >
+        <div className="relative self-center flex w-full max-w-[1217px] items-center justify-between gap-5">
+          <div className="text-black text-xl font-bold self-center my-auto">
+            Strat-er
           </div>
-          <div className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[154px] max-w-full px-9 py-4 rounded-md max-md:px-5">
-            Martingale
+          <div className="hidden items-center xl:flex gap-0">
+            <Link
+              href={"#"}
+              className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[145px] max-w-full px-9 py-4 rounded-md max-md:px-5"
+            >
+              Overview
+            </Link>
+            <Link
+              href={"#"}
+              className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[154px] max-w-full px-9 py-4 rounded-md max-md:px-5"
+            >
+              Martingale
+            </Link>
+            <Link
+              href={"#"}
+              className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[181px] max-w-full px-9 py-4 rounded-md max-md:px-5"
+            >
+              Strategy Vault
+            </Link>
+            <Link
+              href={"#"}
+              className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[147px] max-w-full px-9 py-4 rounded-md max-md:px-5"
+            >
+              Portofolio
+            </Link>
           </div>
-          <div className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[181px] max-w-full px-9 py-4 rounded-md max-md:px-5">
-            Strategy Vault
+          <div className="hidden h-full xl:flex items-center">
+            {connected ? <Connected /> : <Disconnected />}
           </div>
-          <div className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[147px] max-w-full px-9 py-4 rounded-md max-md:px-5">
-            Portofolio
-          </div>
-        </div>
-        <div className="text-white text-sm self-center whitespace-nowrap justify-center items-center bg-blue-600 w-32 max-w-full my-auto px-3 py-2 rounded-lg">
-          Connect Wallet
+
+          <button
+            className="xl:hidden absolute top-[10%] right-0"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {!isMenuOpen ? (
+              <AiOutlineMenu className="cursor-pointer" size={24} />
+            ) : (
+              <AiOutlineClose className="cursor-pointer" size={24} />
+            )}
+          </button>
         </div>
       </div>
-    </div>
+      <div
+        className={cn(
+          "fixed top-0 left-0 w-full h-screen bg-black ease-in-out duration-300",
+          isMenuOpen ? "opacity-20 z-30" : "opacity-0"
+        )}
+      />
+      <div
+        className={cn(
+          "fixed top-19 w-[50%] h-full bg-white ease-in-out duration-300 flex flex-col",
+          isMenuOpen ? "right-0 z-40" : "-right-full"
+        )}
+      >
+        <Link
+          href={"#"}
+          className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[145px] max-w-full px-9 py-4 rounded-md max-md:px-5"
+        >
+          Overview
+        </Link>
+        <Link
+          href={"#"}
+          className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[154px] max-w-full px-9 py-4 rounded-md max-md:px-5"
+        >
+          Martingale
+        </Link>
+        <Link
+          href={"#"}
+          className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[181px] max-w-full px-9 py-4 rounded-md max-md:px-5"
+        >
+          Strategy Vault
+        </Link>
+        <Link
+          href={"#"}
+          className="text-black text-base self-stretch whitespace-nowrap justify-center items-center bg-white w-[147px] max-w-full px-9 py-4 rounded-md max-md:px-5"
+        >
+          Portofolio
+        </Link>
+        <div className="self-center justify-center items-center mt-6">
+          {connected ? <Connected /> : <Disconnected />}
+        </div>
+      </div>
+    </>
   );
 };
 

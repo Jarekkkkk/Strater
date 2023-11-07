@@ -19,10 +19,15 @@ module.exports = {
       spacing: {
         5.5: "1.375rem",
         15: "3.75rem",
+        17: "4.25rem",
         18: "4.5rem",
+        19: "4.75rem",
         25: "6.25rem",
         44: "11rem",
         83.5: "20.875rem",
+      },
+      zIndex: {
+        100: 100,
       },
       colors: {
         border: "hsl(var(--border))",

@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <main className="relative w-full justify-center items-center bg-[#ECECEE] flex flex-col pt-25">
+    <main className="relative w-full justify-center items-center bg-[#ECECEE] flex flex-col xl:pt-25">
       <Header />
       <div className="flex w-full flex-col max-md:max-w-full">
         <div className="flex-col overflow-hidden self-stretch relative flex min-h-[1650px] w-full pt-24 pb-36 px-20 max-md:max-w-full max-md:pb-24 max-md:px-5">
@@ -19,7 +19,7 @@ export default function Home() {
               <div className="text-black text-3xl self-stretch whitespace-nowrap max-md:max-w-full">
                 Live Strategy Vault
               </div>
-              <div className="w-full grid grid-cols-1 xl:grid-cols-[334px_334px_334px] justify-between gap-y-5 xl:gap-y-15 mt-12 max-md:mt-10">
+              <div className="w-full grid grid-cols-1 xl:grid-cols-[334px_334px_334px] justify-between gap-y-5 xl:gap-y-15 xl:mt-12">
                 {MOCK_LIVE_STRATEGY.map((item, index) => (
                   <Card
                     key={item.name + item.title + index}
