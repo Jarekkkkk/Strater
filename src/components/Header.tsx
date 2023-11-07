@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useWallet } from "@suiet/wallet-kit";
 import Connected from "./ui/buttons/Connected";
@@ -10,6 +10,14 @@ import Disconnected from "./ui/buttons/Disconnected";
 const Header = () => {
   const { connected } = useWallet();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      document.body.style.overflow = "unset";
+    } else {
+      document.body.style.overflow = "hidden";
+    }
+  }, [isMenuOpen]);
 
   return (
     <>
@@ -22,9 +30,12 @@ const Header = () => {
         )}
       >
         <div className="relative self-center flex w-full max-w-[1217px] items-center justify-between gap-5">
-          <div className="text-black text-xl font-bold self-center my-auto">
+          <Link
+            href={"/"}
+            className="text-black text-xl font-bold self-center my-auto"
+          >
             Strat-er
-          </div>
+          </Link>
           <div className="hidden items-center xl:flex gap-0">
             <Link
               href={"#"}
@@ -69,9 +80,10 @@ const Header = () => {
       </div>
       <div
         className={cn(
-          "fixed top-0 left-0 w-full h-screen bg-black ease-in-out duration-300",
-          isMenuOpen ? "opacity-20 z-30" : "opacity-0"
+          "fixed top-0 w-full h-screen bg-black ease-in-out duration-300 ",
+          isMenuOpen ? "opacity-20 z-30" : "opacity-0 -z-10"
         )}
+        onClick={() => setIsMenuOpen(false)}
       />
       <div
         className={cn(
