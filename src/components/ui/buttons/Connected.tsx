@@ -31,7 +31,7 @@ const Connected = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-32 h-fit px-3 py-2 rounded-lg text-white text-sm whitespace-nowrap mt-6 xl:mt-0">
+      <DropdownMenuTrigger className="w-32 h-fit px-3 py-2 rounded-lg bg-[#2e79dc] text-white text-sm whitespace-nowrap mt-6 xl:mt-0">
         {account?.address.slice(0, 4)}...
         {account?.address.slice(-4)}
       </DropdownMenuTrigger>

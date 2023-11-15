@@ -22,7 +22,7 @@ const Disconnected = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         transition={{ duration: 0.2 }}
-        className="h-[45px] w-[130px] md:w-[150px] text-sm md:text-base rounded-xl bg-[#2e79dc] font-semibold text-white"
+        className="w-32 h-fit px-3 py-2 rounded-lg text-sm bg-[#2e79dc] font-semibold text-white"
       >
         Connect
       </motion.button>
