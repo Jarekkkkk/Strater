@@ -1,15 +1,17 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { useWallet } from "@suiet/wallet-kit";
-import Connected from "./ui/buttons/Connected";
-import Disconnected from "./ui/buttons/Disconnected";
+import { useCurrentAccount } from "@mysten/dapp-kit";
+import ConnectMenu from "./ui/ConnectMenu";
+import useDisclosure from "@/hooks/useDisclosure";
+import ConnectModal from "./ui/modals/ConnectModal";
 
 const Header = () => {
-  const { connected } = useWallet();
+  const address = useCurrentAccount()?.address;
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (!isMenuOpen) {
@@ -63,7 +65,16 @@ const Header = () => {
             </Link>
           </div>
           <div className="hidden h-full xl:flex items-center">
-            {connected ? <Connected /> : <Disconnected />}
+            {address ? (
+              <ConnectMenu />
+            ) : (
+              <button
+                className="h-[50px] w-[160px] rounded-lg bg-[#3c75df] text-white"
+                onClick={() => onOpen()}
+              >
+                Connect
+              </button>
+            )}
           </div>
 
           <button
@@ -116,9 +127,19 @@ const Header = () => {
           Portofolio
         </Link>
         <div className="self-center justify-center items-center mt-6">
-          {connected ? <Connected /> : <Disconnected />}
+          {address ? (
+            <ConnectMenu />
+          ) : (
+            <button
+              className="h-[50px] w-[160px] rounded-lg bg-blue-500 text-white"
+              onClick={() => onOpen()}
+            >
+              Connect
+            </button>
+          )}
         </div>
       </div>
+      <ConnectModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
     </>
   );
 };
