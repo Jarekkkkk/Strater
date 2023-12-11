@@ -2,15 +2,17 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import FoldedPanel from "../ui/FoldedPanel";
-import { MOCK_FAQ } from "@/constants/mockData";
+import { FAQ } from "@/constants/mockData";
 
 const FAQs = () => {
-  const defaultFoldedState = MOCK_FAQ.map((item) => true);
+  const defaultFoldedState = FAQ.map((item) => true);
   const [isFolded, setIsFolded] = useState(defaultFoldedState);
 
   const handleFoldedState = (index: number) => {
     const newFoldedState = [...defaultFoldedState];
-    newFoldedState[index] = !newFoldedState[index];
+    if (isFolded[index] === true) {
+      newFoldedState[index] = false;
+    }
     setIsFolded(newFoldedState);
   };
 
@@ -22,7 +24,7 @@ const FAQs = () => {
             FAQs
           </div>
           <Separator className={cn("w-full bg-[#56575B] mt-5.5")} />
-          {MOCK_FAQ.map((item, index) => (
+          {FAQ.map((item, index) => (
             <FoldedPanel
               key={"faq" + "title" + index}
               title={item.title}
