@@ -10,7 +10,7 @@ export const MOCK_LIVE_STRATEGY: IStrategyCard[] = [
     for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
   },
   {
-    title: "LSD Transformer",
+    title: "LST Transformer",
     protocolName: "Bucket Protocol",
     logo: "/images/bucket.svg",
     link: "/lst-vault/bucketProtocol",
@@ -26,7 +26,7 @@ export const MOCK_LIVE_STRATEGY: IStrategyCard[] = [
     for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
   },
   {
-    title: "LSD Transformer",
+    title: "LST Transformer",
     protocolName: "Scallop",
     logo: "/images/scallop.svg",
     link: "/lst-vault/scallop",

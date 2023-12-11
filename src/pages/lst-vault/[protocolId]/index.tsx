@@ -36,7 +36,7 @@ const LSTSingleVaultPage = () => {
             <div className="relative flex flex-col max-md:max-w-full max-md:mt-10">
               <BackButton />
               <VaultTitle
-                title="Yield Boost"
+                title="LST Transformer"
                 basicInfo={{
                   name: vaultBasicInfo.name,
                   logo: vaultBasicInfo.logo,
