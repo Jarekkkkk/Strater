@@ -21,7 +21,7 @@ const Card = ({ cardInfo }: ICardProps) => {
     >
       <div
         className={cn(
-          "items-start shadow-lg bg-slate-100 bg-opacity-90 flex w-full xl:w-83.5 max-w-83.5 grow flex-col mx-auto px-12 py-11 rounded-xl border-[0.5px] border-solid border-white max-md:mt-10 max-md:px-5 xl:transform xl:transition-transform xl:duration-300",
+          "items-start shadow-lg bg-slate-100 bg-opacity-90 flex w-full xl:w-83.5 max-w-83.5 grow flex-col mx-auto px-10 py-11 rounded-xl border-[0.5px] border-solid border-white max-md:mt-10 max-md:px-5 xl:transform xl:transition-transform xl:duration-300",
           isHover
             ? "xl:-translate-y-3 xl:shadow-lg shadow-md"
             : "xl:translate-y-0 shadow-md"

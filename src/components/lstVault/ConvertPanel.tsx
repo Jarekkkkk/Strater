@@ -9,7 +9,11 @@ interface IConvertPanelProps {
 }
 
 const ConvertPanel = ({ stakeAmount }: IConvertPanelProps) => {
+  //TODO: Justa
   const [inputAmount, setInputAmount] = useState("");
+
+  //TODO: Justa
+  const handleConvert = () => {};
 
   if (
     !stakeAmount ||
@@ -149,7 +153,10 @@ const ConvertPanel = ({ stakeAmount }: IConvertPanelProps) => {
             />
           </div>
         </div>
-        <button className="text-blue-600 text-xl whitespace-nowrap justify-center items-center border bg-white self-stretch mt-12 px-5 py-2.5 rounded-lg border-solid border-blue-600 max-md:mt-10 xl:hover:scale-105 xl:active:scale-95 ease-in-out duration-300">
+        <button
+          className="text-blue-600 text-xl whitespace-nowrap justify-center items-center border bg-white self-stretch mt-12 px-5 py-2.5 rounded-lg border-solid border-blue-600 max-md:mt-10 xl:hover:scale-105 xl:active:scale-95 ease-in-out duration-300"
+          onClick={handleConvert}
+        >
           Convert
         </button>
       </div>

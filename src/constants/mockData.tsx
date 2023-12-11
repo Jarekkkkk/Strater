@@ -2,7 +2,7 @@ import { IStrategyCard } from "@/type";
 
 export const MOCK_LIVE_STRATEGY: IStrategyCard[] = [
   {
-    title: "Flash Leverage",
+    title: "Leverage Staking",
     protocolName: "Bucket Protocol",
     logo: "/images/bucket.svg",
     link: "/leverage-vault/bucketProtocol",
@@ -10,7 +10,7 @@ export const MOCK_LIVE_STRATEGY: IStrategyCard[] = [
     for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
   },
   {
-    title: "Yield Boost",
+    title: "LSD Transformer",
     protocolName: "Bucket Protocol",
     logo: "/images/bucket.svg",
     link: "/lst-vault/bucketProtocol",
@@ -18,7 +18,7 @@ export const MOCK_LIVE_STRATEGY: IStrategyCard[] = [
     for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
   },
   {
-    title: "Leverage",
+    title: "Leverage Staking",
     protocolName: "Scallop",
     logo: "/images/scallop.svg",
     link: "/leverage-vault/scallop",
@@ -26,7 +26,7 @@ export const MOCK_LIVE_STRATEGY: IStrategyCard[] = [
     for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
   },
   {
-    title: "Yield Boost",
+    title: "LSD Transformer",
     protocolName: "Scallop",
     logo: "/images/scallop.svg",
     link: "/lst-vault/scallop",

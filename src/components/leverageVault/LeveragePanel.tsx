@@ -8,8 +8,12 @@ interface IConvertPanelProps {
 }
 
 const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
+  //TODO: Justa
   const [inputAmount, setInputAmount] = useState("");
   const [leverage, setLeverage] = useState([2]);
+
+  //TODO: Justa
+  const handleLeverage = () => {};
 
   return (
     <div className="w-[36%] flex flex-col items-center max-md:w-full">
@@ -169,7 +173,10 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           </div>
         </div>
         {/* Leverage Button */}
-        <button className="text-blue-600 text-xl whitespace-nowrap justify-center items-center border bg-white self-stretch mt-9 px-5 py-2.5 rounded-lg border-solid border-blue-600 max-md:mt-10 xl:hover:scale-105 xl:active:scale-95 ease-in-out duration-300">
+        <button
+          className="text-blue-600 text-xl whitespace-nowrap justify-center items-center border bg-white self-stretch mt-9 px-5 py-2.5 rounded-lg border-solid border-blue-600 max-md:mt-10 xl:hover:scale-105 xl:active:scale-95 ease-in-out duration-300"
+          onClick={handleLeverage}
+        >
           Leverage
         </button>
       </div>
