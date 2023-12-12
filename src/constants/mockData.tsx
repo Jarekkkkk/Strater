@@ -2,7 +2,7 @@ import { IStrategyCard } from "@/type";
 
 export const MOCK_LIVE_STRATEGY: IStrategyCard[] = [
   {
-    title: "Leverage Staking",
+    title: "Leverage",
     protocolName: "Bucket Protocol",
     logo: "/images/bucket.svg",
     link: "/leverage-vault/bucketProtocol",
@@ -18,7 +18,7 @@ export const MOCK_LIVE_STRATEGY: IStrategyCard[] = [
     for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
   },
   {
-    title: "Leverage Staking",
+    title: "Leverage",
     protocolName: "Scallop",
     logo: "/images/scallop.svg",
     link: "/leverage-vault/scallop",
