@@ -3,6 +3,7 @@ import { formatNumber, type Notation } from "@/lib/format";
 
 interface FormatNumberProps {
   value: string | number;
+  dollarSign?: string;
   unit?: string | undefined;
   isLoading?: boolean;
   decimal?: number;
@@ -11,6 +12,7 @@ interface FormatNumberProps {
   maxFractionDigits?: number;
   minFractionDigits?: number;
   notation?: Notation;
+  spaceWithDollarSign?: boolean;
   spaceWithUnit?: boolean;
   skeletonBg?: string;
   skeletonClass?: string;
@@ -19,6 +21,7 @@ interface FormatNumberProps {
 
 const FormatNumber = ({
   value,
+  dollarSign = "",
   unit = "",
   isLoading = false,
   decimal = 0,
@@ -27,6 +30,7 @@ const FormatNumber = ({
   maxFractionDigits = 2,
   minFractionDigits = 2,
   notation = "compact",
+  spaceWithDollarSign = false,
   spaceWithUnit = false,
   skeletonBg = "bg-slate-600",
   skeletonClass = "w-30 h-10",
@@ -34,7 +38,11 @@ const FormatNumber = ({
 }: FormatNumberProps) => {
   const shortString =
     value !== undefined
-      ? (unit === "$" ? (spaceWithUnit ? `${unit} ` : `${unit}`) : "") +
+      ? (dollarSign !== ""
+          ? spaceWithDollarSign
+            ? `${dollarSign} `
+            : `${dollarSign}`
+          : "") +
         formatNumber(
           Number(value) / 10 ** decimal,
           precision,

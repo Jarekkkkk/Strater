@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
+import { useTicker } from "@/hooks/pricefeed/useTicker";
 import FormatNumber from "../formats/formatNumber";
 
 interface IConvertPanelProps {
@@ -8,6 +9,11 @@ interface IConvertPanelProps {
 }
 
 const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
+  const { cryptosPriceData } = useTicker();
+  const suiPric =
+    cryptosPriceData && cryptosPriceData.length > 0
+      ? cryptosPriceData?.find((item) => item.symbol === "SUI")?.price
+      : 0;
   //TODO: Justa
   const [inputAmount, setInputAmount] = useState("");
   const [leverage, setLeverage] = useState([2]);
@@ -74,9 +80,9 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           <div className="w-full flex justify-between">
             <div className="text-black text-xs">SUI Price</div>
             <FormatNumber
-              value={4.41}
-              unit="%"
-              maxFractionDigits={4}
+              value={!suiPric ? 0 : suiPric.toString()}
+              dollarSign="$"
+              unit="USD"
               minFractionDigits={0}
               spaceWithUnit
               skeletonClass="w-16 h-4"
