@@ -55,8 +55,17 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
       toast.warning("Please input amount");
       return;
     }
+
+    const debtAmount = inputAmount
+    ? Number(inputAmount) * suiPric * (leverage[0] - 1)
+    : 0;
+
+    if (debtAmount < 10) {
+      toast.warning("Min debt amount in Bucket is 10");
+      return;
+    }
     const tx = await createBucketLeverageTx({
-      suiClient,
+      suiClient: suiClient as any,
       senderAddress: account.address,
       inputAmount: Math.floor(Number(inputAmount) * 10 ** 9),
       leverage: leverage[0],
@@ -64,37 +73,35 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
     });
 
     if (!tx) return;
-    tx.setGasBudget(50_000_000);
-    signAndExecuteTransactionBlock(
-      {
-        transactionBlock: tx,
-        chain: "sui:mainnet",
+    // tx.setGasBudget(50_000_000);
+    signAndExecuteTransactionBlock({
+      transactionBlock: tx as any,
+      chain: "sui:mainnet"
+    },
+    {
+      onSuccess: (res) => {
+        suiClient.waitForTransactionBlock({ digest: res.digest }).then(() => {
+          if (!!res.digest) {
+            toast.success(
+              <Link
+                className="flex items-center gap-1 pr-2"
+                target="_blank"
+                href="https://app.bucketprotocol.io/position"
+              >
+                Success! Click to see your position
+                <LinkIcon />
+              </Link>
+            );
+          } else {
+            console.log("test");
+            toast.error("Exceed slippage! Try smaller amount");
+          }
+        });
       },
-      {
-        onSuccess: (res) => {
-          suiClient.waitForTransactionBlock({ digest: res.digest }).then(() => {
-            if (!!res.digest) {
-              toast.success(
-                <Link
-                  className="flex items-center gap-1 pr-2"
-                  target="_blank"
-                  href="https://app.bucketprotocol.io/position"
-                >
-                  Success! Click to see your position
-                  <LinkIcon />
-                </Link>
-              );
-            } else {
-              console.log("test");
-              toast.error("Exceed slippage! Try smaller amount");
-            }
-          });
-        },
-        onError: () => {
-          toast.error("Exceed slippage! Try smaller amount");
-        },
-      }
-    );
+      onError: () => {
+        toast.error("Something went wrong");
+      },
+    });
   };
 
   const getLiquidationPrice = (): number => {
@@ -192,9 +199,9 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           <div className="w-full flex justify-between">
             <div className="text-black text-xs">Collateral </div>
             <FormatNumber
-              value={inputAmount ? Number(inputAmount) * leverage[0] : 0}
+              value={(inputAmount ? Number(inputAmount) * leverage[0] : 0) * 0.994}
               notation="standard"
-              unit="SUI"
+              unit="afSUI"
               minFractionDigits={0}
               spaceWithUnit
               skeletonClass="w-16 h-4"

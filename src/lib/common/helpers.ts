@@ -10,33 +10,35 @@ import { LstSymbol } from "./types";
 import { voloStakeSUI } from "../volo/operations";
 import { haedalStakeSUI } from "../haedal/operations";
 import { aftermathStakeSUI } from "../aftermath/operations";
+import { txMoveCall } from "../utils/priceFeed/scallopParser";
+import { ScallopTxBlock } from "@scallop-io/sui-scallop-sdk";
 
 export function newZeroCoin(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   coinType: string,
 ): TransactionResult {
-  return tx.moveCall({
+  return txMoveCall(tx, {
     target: "0x2::coin::zero",
     typeArguments: [coinType],
   });
 }
 
 export function newZeroBalance(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   coinType: string,
 ): TransactionResult {
-  return tx.moveCall({
+  return txMoveCall(tx, {
     target: "0x2::balance::zero",
     typeArguments: [coinType],
   });
 }
 
 export function getCoinValue(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   coinType: string,
   coin: TransactionArgument,
 ): TransactionResult {
-  return tx.moveCall({
+  return txMoveCall(tx, {
     target: "0x2::coin::value",
     typeArguments: [coinType],
     arguments: [coin],
@@ -44,11 +46,11 @@ export function getCoinValue(
 }
 
 export function getBalanceValue(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   coinType: string,
   balance: TransactionArgument,
 ): TransactionResult {
-  return tx.moveCall({
+  return txMoveCall(tx, {
     target: "0x2::balance::value",
     typeArguments: [coinType],
     arguments: [balance],
@@ -56,11 +58,11 @@ export function getBalanceValue(
 }
 
 export function coinFromBalance(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   coinType: string,
   balance: TransactionArgument,
 ): TransactionResult {
-  return tx.moveCall({
+  return txMoveCall(tx, {
     target: "0x2::coin::from_balance",
     typeArguments: [coinType],
     arguments: [balance]
@@ -68,11 +70,11 @@ export function coinFromBalance(
 }
 
 export function coinIntoBalance(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   coinType: string,
   coin: TransactionArgument,
 ): TransactionResult {
-  return tx.moveCall({
+  return txMoveCall(tx, {
     target: "0x2::coin::into_balance",
     typeArguments: [coinType],
     arguments: [coin]
@@ -80,7 +82,7 @@ export function coinIntoBalance(
 }
 
 export function destroyZeroCoin(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   coinType: string,
   coin: TransactionArgument,
 ) {
@@ -92,7 +94,7 @@ export function destroyZeroCoin(
 }
 
 export function destroyZeroBalance(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   coinType: string,
   balance: TransactionArgument,
 ) {
@@ -105,7 +107,7 @@ export function destroyZeroBalance(
 
 export async function getInputCoins(
   suiClient: SuiClient,
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   owner: string,
   coinSymbol: string,
   ...amounts: number[]
@@ -160,7 +162,7 @@ export async function getCoinPrice(
 }
 
 export function stakeSUI(
-	tx: TransactionBlock,
+	tx: TransactionBlock | ScallopTxBlock,
 	suiCoin: TransactionArgument,
 	lstSymbol?: LstSymbol,
 ): TransactionArgument {

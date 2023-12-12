@@ -5,13 +5,15 @@ import {
 } from "@mysten/sui.js/transactions";
 import { AFTERMATH_CONFIG } from "./config";
 import { COIN_TYPES, SYSTEM_STATE_OBJECT } from "../common/constants";
+import { txMoveCall } from "../utils/priceFeed/scallopParser";
+import { ScallopTxBlock } from "@scallop-io/sui-scallop-sdk";
 
 export function aftermathStakeSUI(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
 	suiCoin: TransactionArgument,
 ): TransactionResult {
-	return tx.moveCall({
-		target: AFTERMATH_CONFIG.stakeTarget,
+  return txMoveCall(tx, {
+    target: AFTERMATH_CONFIG.stakeTarget,
     arguments: [
       tx.sharedObjectRef(AFTERMATH_CONFIG.stakedSuiVaultObj),
       tx.sharedObjectRef(AFTERMATH_CONFIG.afSuiTreasuryObj),
@@ -20,7 +22,7 @@ export function aftermathStakeSUI(
       suiCoin,
       tx.pure(AFTERMATH_CONFIG.validatorAddress, 'address'),
     ],
-	});
+  });
 }
 
 export async function aftermathSwap(

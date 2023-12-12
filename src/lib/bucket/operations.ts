@@ -7,9 +7,12 @@ import { BUCKET_CONFIG } from "./config";
 import { COIN_TYPES, CLOCK_OBJECT } from "../common/constants";
 import { SUPRA_OJBECT_HOLDER_ID, SUPRA_PRICE_FEED_IDS } from "../supra/config";
 import { coinIntoBalance } from "../common/helpers";
+import { ScallopTxBlock } from "@scallop-io/sui-scallop-sdk";
+import { MoveCallTarget } from "../common/types";
+import { txMoveCall } from "../utils/priceFeed/scallopParser";
 
 export function bucketFlashBorrow(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   inputs: {
     coinSymbol: string,
     amount: number,
@@ -18,31 +21,24 @@ export function bucketFlashBorrow(
   const { corePackageId, protocolObj } = BUCKET_CONFIG;
   const { coinSymbol, amount } = inputs;
   const coinType = COIN_TYPES[coinSymbol];
-  if (coinType === COIN_TYPES.BUCK) {
-    const [flashLoans, flashReceipt] = tx.moveCall({
-      target: `${corePackageId}::buck::flash_borrow_buck`,
-      typeArguments: [COIN_TYPES.SUI],
-      arguments: [
-        tx.sharedObjectRef(protocolObj),
-        tx.pure(amount, 'u64'),
-      ],
-    });
-    return [flashLoans, flashReceipt];
-  } else {
-    const [flashLoans, flashReceipt] = tx.moveCall({
-      target: `${corePackageId}::buck::flash_borrow`,
-      typeArguments: [coinType],
-      arguments: [
-        tx.sharedObjectRef(protocolObj),
-        tx.pure(amount, 'u64'),
-      ],
-    });
-    return [flashLoans, flashReceipt];
-  };
+  const isBuck = coinType === COIN_TYPES.BUCK;
+  const target = isBuck?
+    `${corePackageId}::buck::flash_borrow_buck` as MoveCallTarget:
+    `${corePackageId}::buck::flash_borrow` as MoveCallTarget;
+  const typeArguments = isBuck? [COIN_TYPES.SUI] : [coinType];
+  const [flashLoans, flashReceipt] = txMoveCall(tx, {
+    target,
+    typeArguments,
+    arguments: [
+      tx.sharedObjectRef(protocolObj),
+      tx.pure(amount, 'u64'),
+    ],
+  });
+  return [flashLoans, flashReceipt];
 }
 
 export function bucketFlashRepay(
-  tx: TransactionBlock,
+  tx: TransactionBlock | ScallopTxBlock,
   inputs: {
     coinSymbol: string,
     repayment: TransactionArgument,
@@ -52,27 +48,20 @@ export function bucketFlashRepay(
   const { corePackageId, protocolObj } = BUCKET_CONFIG;
   const { coinSymbol, repayment, flashReceipt } = inputs;
   const coinType = COIN_TYPES[coinSymbol];
-  if (coinType === COIN_TYPES.BUCK) {
-    return tx.moveCall({
-      target: `${corePackageId}::buck::flash_repay_buck`,
-      typeArguments: [COIN_TYPES.SUI],
-      arguments: [
-        tx.sharedObjectRef(protocolObj),
-        repayment,
-        flashReceipt,
-      ],
-    });
-  } else {
-    return tx.moveCall({
-      target: `${corePackageId}::buck::flash_repay`,
-      typeArguments: [coinType],
-      arguments: [
-        tx.sharedObjectRef(protocolObj),
-        repayment,
-        flashReceipt,
-      ],
-    });
-  };
+  const isBuck = coinType === COIN_TYPES.BUCK;
+  const target = isBuck?
+    `${corePackageId}::buck::flash_repay_buck` as MoveCallTarget:
+    `${corePackageId}::buck::flash_repay` as MoveCallTarget;
+  const typeArguments = isBuck? [COIN_TYPES.SUI] : [coinType];
+  txMoveCall(tx, {
+    target,
+    typeArguments,
+    arguments: [
+      tx.sharedObjectRef(protocolObj),
+      repayment,
+      flashReceipt,
+    ],
+  });
 }
 
 export function bucketBorrow(
