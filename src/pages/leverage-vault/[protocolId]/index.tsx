@@ -36,7 +36,7 @@ const LeverageSingleVaultPage = () => {
             <div className="relative flex flex-col max-md:max-w-full max-md:mt-10">
               <BackButton />
               <VaultTitle
-                title="Flash Leverage"
+                title="Leverage"
                 basicInfo={{
                   name: vaultBasicInfo.name,
                   logo: vaultBasicInfo.logo,
