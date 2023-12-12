@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 import { useTicker } from "@/hooks/pricefeed/useTicker";
-import { useWallets } from "@mysten/dapp-kit";
+import { useEffect, useState } from "react";
 import FormatNumber from "../formats/formatNumber";
 import { useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient } from "@mysten/dapp-kit";
 import { createBucketLeverageTx } from "@/lib/bucket/strategies";
@@ -22,10 +21,23 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
   //TODO: Justa
   const [inputAmount, setInputAmount] = useState("");
   const [leverage, setLeverage] = useState([2]);
+  const [suiBalance, setSuiBalance] = useState("0");
   const account = useCurrentAccount();
   const suiClient = useSuiClient();
   const { mutate: signAndExecuteTransactionBlock } =
     useSignAndExecuteTransactionBlock();
+
+  useEffect(() => {
+    const getSuiBalance = async () => {
+      if (!account) return;
+      const suiBalance = await suiClient.getBalance({
+        owner: account.address,
+        coinType: "0x2::sui::SUI",
+      });
+      setSuiBalance(suiBalance.totalBalance);
+    };
+    getSuiBalance();
+  }, [account]);
 
   const handleLeverage = async () => {
     if (!account || !inputAmount) return;
@@ -70,7 +82,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
         <div className="flex max-w-full gap-5 mt-5.5 self-end">
           <span className="text-neutral-400 text-xs">Balance</span>
           <FormatNumber
-            value={stakeAmount}
+            value={(Number(suiBalance)/10**9).toFixed(3)}
             notation="standard"
             maxFractionDigits={4}
             minFractionDigits={2}
