@@ -39,7 +39,7 @@ export async function createBucketLeverageTx(inputs: {
     const stSuiCoin = stakeSUI(tx, suiInCoin, lstSymbol);
   
     // borrow BUCK
-    const buckAmount = Math.round(usdcAmount * 1000 * 1.005);
+    const buckAmount = Math.round(usdcAmount * 1000 * 1.001);
     const buckBalance = bucketBorrow(tx, {
       collSymbol: lstSymbol ?? 'SUI',
       collCoinInput: stSuiCoin,
