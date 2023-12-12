@@ -2,18 +2,55 @@ import Image from "next/image";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 import FormatNumber from "../formats/formatNumber";
+import { useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient } from "@mysten/dapp-kit";
+import { createBucketLeverageTx } from "@/lib/bucket/strategies";
+import { toast } from "react-toastify";
+import { Link } from "lucide-react";
 
 interface IConvertPanelProps {
   stakeAmount: string;
 }
 
 const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
-  //TODO: Justa
   const [inputAmount, setInputAmount] = useState("");
   const [leverage, setLeverage] = useState([2]);
+  const account = useCurrentAccount();
+  const suiClient = useSuiClient();
+  const { mutate: signAndExecuteTransactionBlock } =
+    useSignAndExecuteTransactionBlock();
 
-  //TODO: Justa
-  const handleLeverage = () => {};
+  const handleLeverage = async () => {
+    if (!account || !inputAmount) return;
+    const tx = await createBucketLeverageTx({
+      suiClient,
+      senderAddress: account.address,
+      inputAmount: Math.floor(Number(inputAmount) * 10**9),
+      leverage: leverage[0],
+      lstSymbol: 'afSUI',
+    });
+
+    if (!tx) return;
+    tx.setGasBudget(50_000_000);
+    signAndExecuteTransactionBlock({
+      transactionBlock: tx,
+      chain: "sui:mainnet"
+    },
+    {
+      // TODO: unmark after adding toast in layout
+      onSuccess: (res) => {
+        suiClient.waitForTransactionBlock({ digest: res.digest }).then(() => {
+          if (!!res.digest) {
+            toast.success(<div><Link target="_blank" href="https://app.bucketprotocol.io/position">Success! Click to see your position</Link></div>);
+          } else {
+            toast.error("Exceed slippage! Try smaller amount");
+          }
+        })
+      },
+      onError: () => {
+        toast.error("Exceed slippage! Try smaller amount");
+      },
+    })
+  };
 
   return (
     <div className="w-[36%] flex flex-col items-center max-md:w-full">
