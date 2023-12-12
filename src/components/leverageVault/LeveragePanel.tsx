@@ -15,9 +15,9 @@ interface IConvertPanelProps {
 const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
   const { cryptosPriceData } = useTicker();
   const suiPric =
-    cryptosPriceData && cryptosPriceData.length > 0
-      ? cryptosPriceData?.find((item) => item.symbol === "SUI")?.price
-      : 0;
+    Number(cryptosPriceData && cryptosPriceData.length > 0
+      ? cryptosPriceData?.find((item) => item.symbol === "SUI")?.price ?? 0
+      : 0);
   //TODO: Justa
   const [inputAmount, setInputAmount] = useState("");
   const [leverage, setLeverage] = useState([2]);
@@ -71,6 +71,12 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
       },
     })
   };
+
+  const getLiquidationPrice = (): number => {
+    const collateralAmount = inputAmount ? Number(inputAmount) * leverage[0] : 0;
+    const debtAmount = inputAmount ? Number(inputAmount) * suiPric * (leverage[0] - 1) : 0;
+    return collateralAmount ? (debtAmount * 1.1)/collateralAmount : 0;
+  }
 
   return (
     <div className="w-[36%] flex flex-col items-center max-md:w-full">
@@ -141,11 +147,11 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
             />
           </div>
           <div className="w-full flex justify-between">
-            <div className="text-black text-xs">Slippage</div>
+            <div className="text-black text-xs">Max Slippage</div>
             <p className="flex items-center gap-1.5">
-              <span className="text-black text-right text-xs">{`<= `}</span>
+              <span className="text-black text-right text-xs"></span>
               <FormatNumber
-                value={2}
+                value={0.5}
                 unit="%"
                 minFractionDigits={0}
                 spaceWithUnit
@@ -157,7 +163,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           <div className="w-full flex justify-between">
             <div className="text-black text-xs">Collateral </div>
             <FormatNumber
-              value={20000}
+              value={inputAmount ? Number(inputAmount) * leverage[0] : 0}
               notation="standard"
               unit="SUI"
               minFractionDigits={0}
@@ -167,9 +173,9 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
             />
           </div>
           <div className="w-full flex justify-between">
-            <div className="text-black text-xs">Your Debt</div>
+            <div className="text-black text-xs">Debt</div>
             <FormatNumber
-              value={9999}
+              value={inputAmount ? Number(inputAmount) * suiPric * (leverage[0] - 1) : 0}
               notation="standard"
               unit="BUCK"
               minFractionDigits={0}
@@ -181,7 +187,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           <div className="w-full flex justify-between">
             <div className="text-black text-xs">{`Max LTV ( SUI )`}</div>
             <FormatNumber
-              value={90}
+              value={(1000/11).toFixed(2)}
               unit="%"
               minFractionDigits={0}
               spaceWithUnit
@@ -189,7 +195,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
               numberClass="text-black text-right text-xs"
             />
           </div>
-          <div className="w-full flex justify-between">
+          {/* <div className="w-full flex justify-between">
             <div className="text-black text-xs">Borrow Limit</div>
             <p className="flex items-center gap-1.5">
               <FormatNumber
@@ -211,13 +217,13 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
                 numberClass="text-black text-right text-xs"
               />
             </p>
-          </div>
+          </div> */}
           <div className="w-full flex justify-between">
             <div className="text-black text-xs">Liquidation Price</div>
             <p className="flex items-center gap-1.5">
               <div className="text-black text-right text-xs">{`~`}</div>
               <FormatNumber
-                value={0.45}
+                value={getLiquidationPrice()}
                 unit="SUI"
                 notation="standard"
                 maxFractionDigits={4}
