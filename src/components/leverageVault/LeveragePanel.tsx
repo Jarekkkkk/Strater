@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 import { useTicker } from "@/hooks/pricefeed/useTicker";
-import { useWallets } from "@mysten/dapp-kit";
+import { useEffect, useState } from "react";
 import FormatNumber from "../formats/formatNumber";
 import { useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient } from "@mysten/dapp-kit";
 import { createBucketLeverageTx } from "@/lib/bucket/strategies";
@@ -16,16 +15,29 @@ interface IConvertPanelProps {
 const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
   const { cryptosPriceData } = useTicker();
   const suiPric =
-    cryptosPriceData && cryptosPriceData.length > 0
-      ? cryptosPriceData?.find((item) => item.symbol === "SUI")?.price
-      : 0;
+    Number(cryptosPriceData && cryptosPriceData.length > 0
+      ? cryptosPriceData?.find((item) => item.symbol === "SUI")?.price ?? 0
+      : 0);
   //TODO: Justa
   const [inputAmount, setInputAmount] = useState("");
   const [leverage, setLeverage] = useState([2]);
+  const [suiBalance, setSuiBalance] = useState("0");
   const account = useCurrentAccount();
   const suiClient = useSuiClient();
   const { mutate: signAndExecuteTransactionBlock } =
     useSignAndExecuteTransactionBlock();
+
+  useEffect(() => {
+    const getSuiBalance = async () => {
+      if (!account) return;
+      const suiBalance = await suiClient.getBalance({
+        owner: account.address,
+        coinType: "0x2::sui::SUI",
+      });
+      setSuiBalance(suiBalance.totalBalance);
+    };
+    getSuiBalance();
+  }, [account]);
 
   const handleLeverage = async () => {
     if (!account || !inputAmount) return;
@@ -60,6 +72,12 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
     })
   };
 
+  const getLiquidationPrice = (): number => {
+    const collateralAmount = inputAmount ? Number(inputAmount) * leverage[0] : 0;
+    const debtAmount = inputAmount ? Number(inputAmount) * suiPric * (leverage[0] - 1) : 0;
+    return collateralAmount ? (debtAmount * 1.1)/collateralAmount : 0;
+  }
+
   return (
     <div className="w-[36%] flex flex-col items-center max-md:w-full">
       <div className="shadow-lg bg-white relative flex w-full h-160 flex-col mt-2 mx-auto py-13.5 px-13 rounded-md max-md:mt-10 max-md:px-10">
@@ -70,7 +88,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
         <div className="flex max-w-full gap-5 mt-5.5 self-end">
           <span className="text-neutral-400 text-xs">Balance</span>
           <FormatNumber
-            value={stakeAmount}
+            value={(Number(suiBalance)/10**9).toFixed(3)}
             notation="standard"
             maxFractionDigits={4}
             minFractionDigits={2}
@@ -129,11 +147,11 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
             />
           </div>
           <div className="w-full flex justify-between">
-            <div className="text-black text-xs">Slippage</div>
+            <div className="text-black text-xs">Max Slippage</div>
             <p className="flex items-center gap-1.5">
-              <span className="text-black text-right text-xs">{`<= `}</span>
+              <span className="text-black text-right text-xs"></span>
               <FormatNumber
-                value={2}
+                value={0.5}
                 unit="%"
                 minFractionDigits={0}
                 spaceWithUnit
@@ -145,7 +163,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           <div className="w-full flex justify-between">
             <div className="text-black text-xs">Collateral </div>
             <FormatNumber
-              value={20000}
+              value={inputAmount ? Number(inputAmount) * leverage[0] : 0}
               notation="standard"
               unit="SUI"
               minFractionDigits={0}
@@ -155,9 +173,9 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
             />
           </div>
           <div className="w-full flex justify-between">
-            <div className="text-black text-xs">Your Debt</div>
+            <div className="text-black text-xs">Debt</div>
             <FormatNumber
-              value={9999}
+              value={inputAmount ? Number(inputAmount) * suiPric * (leverage[0] - 1) : 0}
               notation="standard"
               unit="BUCK"
               minFractionDigits={0}
@@ -169,7 +187,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           <div className="w-full flex justify-between">
             <div className="text-black text-xs">{`Max LTV ( SUI )`}</div>
             <FormatNumber
-              value={90}
+              value={(1000/11).toFixed(2)}
               unit="%"
               minFractionDigits={0}
               spaceWithUnit
@@ -177,7 +195,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
               numberClass="text-black text-right text-xs"
             />
           </div>
-          <div className="w-full flex justify-between">
+          {/* <div className="w-full flex justify-between">
             <div className="text-black text-xs">Borrow Limit</div>
             <p className="flex items-center gap-1.5">
               <FormatNumber
@@ -199,13 +217,13 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
                 numberClass="text-black text-right text-xs"
               />
             </p>
-          </div>
+          </div> */}
           <div className="w-full flex justify-between">
             <div className="text-black text-xs">Liquidation Price</div>
             <p className="flex items-center gap-1.5">
               <div className="text-black text-right text-xs">{`~`}</div>
               <FormatNumber
-                value={0.45}
+                value={getLiquidationPrice()}
                 unit="SUI"
                 notation="standard"
                 maxFractionDigits={4}
