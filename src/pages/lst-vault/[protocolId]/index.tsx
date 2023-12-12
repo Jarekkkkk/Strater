@@ -63,7 +63,7 @@ const LSTSingleVaultPage = () => {
                   </div>
                 </div>
                 {/* Contract */}
-                <div className="items-stretch self-stretch flex flex-col max-md:max-w-full">
+                {/* <div className="items-stretch self-stretch flex flex-col max-md:max-w-full">
                   <div className="text-black text-base max-md:max-w-full">
                     Contract
                   </div>
@@ -100,7 +100,7 @@ const LSTSingleVaultPage = () => {
                       );
                     }
                   )}
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

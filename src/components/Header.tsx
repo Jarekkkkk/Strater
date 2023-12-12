@@ -69,7 +69,7 @@ const Header = () => {
               <ConnectMenu />
             ) : (
               <button
-                className="h-[50px] w-[160px] rounded-lg bg-[#3c75df] text-white"
+                className="h-9 w-32.5 rounded-lg bg-[#3c75df] text-white hover:scale-110 active:scale-90 ease-in-out duration-300"
                 onClick={() => onOpen()}
               >
                 Connect

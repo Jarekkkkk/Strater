@@ -3,6 +3,8 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import { Prompt } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const prompt = Prompt({
   subsets: ["latin"],
@@ -20,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <SuiWalletProvider>
         <main className={prompt.className}>
           <Component {...pageProps} />
+          <ToastContainer />
         </main>
       </SuiWalletProvider>
     </QueryClientProvider>
