@@ -23,7 +23,7 @@ const ConvertPanel = ({ stakeAmount }: IConvertPanelProps) => {
   ) {
     return (
       <div className="w-[36%] flex flex-col items-center max-md:w-full">
-        <div className="shadow-lg bg-white relative flex w-full h-60 flex-col mt-31 mx-auto py-14 px-15 rounded-md max-md:mt-10 max-md:px-10 items-start">
+        <div className="shadow-lg bg-white relative flex w-full h-60 flex-col mt-10 mx-auto py-14 px-15 rounded-md max-md:mt-10 max-md:px-10 items-start">
           <span className="text-black text-xl self-stretch text-justify">
             You don’t have any Sui collateral on bucket
           </span>
@@ -44,7 +44,7 @@ const ConvertPanel = ({ stakeAmount }: IConvertPanelProps) => {
 
   return (
     <div className="w-[36%] flex flex-col items-center max-md:w-full">
-      <div className="shadow-lg bg-white relative flex w-full h-128 flex-col mt-31 mx-auto py-13.5 px-13 rounded-md max-md:mt-10 max-md:px-10">
+      <div className="shadow-lg bg-white relative flex w-full h-128 flex-col mt-10 mx-auto py-13.5 px-13 rounded-md max-md:mt-10 max-md:px-10">
         <span className="w-fit text-black text-xl self-stretch text-justify">
           Convert your SUI collateral to LST and earn{" "}
           <FormatNumber
