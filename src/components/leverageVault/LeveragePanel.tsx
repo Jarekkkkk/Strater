@@ -3,10 +3,14 @@ import { Slider } from "@/components/ui/slider";
 import { useTicker } from "@/hooks/pricefeed/useTicker";
 import { useEffect, useState } from "react";
 import FormatNumber from "../formats/formatNumber";
-import { useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient } from "@mysten/dapp-kit";
+import {
+  useCurrentAccount,
+  useSignAndExecuteTransactionBlock,
+  useSuiClient,
+} from "@mysten/dapp-kit";
 import { createBucketLeverageTx } from "@/lib/bucket/strategies";
-import { toast } from "react-toastify";
 import { Link } from "lucide-react";
+import { toast } from "react-toastify";
 
 interface IConvertPanelProps {
   stakeAmount: string;
@@ -14,10 +18,11 @@ interface IConvertPanelProps {
 
 const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
   const { cryptosPriceData } = useTicker();
-  const suiPric =
-    Number(cryptosPriceData && cryptosPriceData.length > 0
+  const suiPric = Number(
+    cryptosPriceData && cryptosPriceData.length > 0
       ? cryptosPriceData?.find((item) => item.symbol === "SUI")?.price ?? 0
-      : 0);
+      : 0
+  );
   //TODO: Justa
   const [inputAmount, setInputAmount] = useState("");
   const [leverage, setLeverage] = useState([2]);
@@ -40,43 +45,66 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
   }, [account]);
 
   const handleLeverage = async () => {
-    if (!account || !inputAmount) return;
+    if (!account) {
+      toast.warning("Please check your wallet connected");
+      return;
+    }
+
+    if (!inputAmount) {
+      toast.warning("Please input amount");
+      return;
+    }
     const tx = await createBucketLeverageTx({
       suiClient,
       senderAddress: account.address,
-      inputAmount: Math.floor(Number(inputAmount) * 10**9),
+      inputAmount: Math.floor(Number(inputAmount) * 10 ** 9),
       leverage: leverage[0],
-      lstSymbol: 'afSUI',
+      lstSymbol: "afSUI",
     });
 
     if (!tx) return;
     tx.setGasBudget(50_000_000);
-    signAndExecuteTransactionBlock({
-      transactionBlock: tx,
-      chain: "sui:mainnet"
-    },
-    {
-      // TODO: unmark after adding toast in layout
-      onSuccess: (res) => {
-        suiClient.waitForTransactionBlock({ digest: res.digest }).then(() => {
-          if (!!res.digest) {
-            toast.success(<div><Link target="_blank" href="https://app.bucketprotocol.io/position">Success! Click to see your position</Link></div>);
-          } else {
-            toast.error("Exceed slippage! Try smaller amount");
-          }
-        })
+    signAndExecuteTransactionBlock(
+      {
+        transactionBlock: tx,
+        chain: "sui:mainnet",
       },
-      onError: () => {
-        toast.error("Exceed slippage! Try smaller amount");
-      },
-    })
+      {
+        onSuccess: (res) => {
+          suiClient.waitForTransactionBlock({ digest: res.digest }).then(() => {
+            if (!!res.digest) {
+              toast.success(
+                <div>
+                  <Link
+                    target="_blank"
+                    href="https://app.bucketprotocol.io/position"
+                  >
+                    Success! Click to see your position
+                  </Link>
+                </div>
+              );
+            } else {
+              console.log("test");
+              toast.error("Exceed slippage! Try smaller amount");
+            }
+          });
+        },
+        onError: () => {
+          toast.error("Exceed slippage! Try smaller amount");
+        },
+      }
+    );
   };
 
   const getLiquidationPrice = (): number => {
-    const collateralAmount = inputAmount ? Number(inputAmount) * leverage[0] : 0;
-    const debtAmount = inputAmount ? Number(inputAmount) * suiPric * (leverage[0] - 1) : 0;
-    return collateralAmount ? (debtAmount * 1.1)/collateralAmount : 0;
-  }
+    const collateralAmount = inputAmount
+      ? Number(inputAmount) * leverage[0]
+      : 0;
+    const debtAmount = inputAmount
+      ? Number(inputAmount) * suiPric * (leverage[0] - 1)
+      : 0;
+    return collateralAmount ? (debtAmount * 1.1) / collateralAmount : 0;
+  };
 
   return (
     <div className="w-[36%] flex flex-col items-center max-md:w-full">
@@ -88,7 +116,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
         <div className="flex max-w-full gap-5 mt-5.5 self-end">
           <span className="text-neutral-400 text-xs">Balance</span>
           <FormatNumber
-            value={(Number(suiBalance)/10**9).toFixed(3)}
+            value={(Number(suiBalance) / 10 ** 9).toFixed(3)}
             notation="standard"
             maxFractionDigits={4}
             minFractionDigits={2}
@@ -125,7 +153,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           <Slider
             defaultValue={[2]}
             max={3}
-            min={1}
+            min={1.5}
             step={0.5}
             className="mt-9"
             value={leverage}
@@ -175,7 +203,11 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           <div className="w-full flex justify-between">
             <div className="text-black text-xs">Debt</div>
             <FormatNumber
-              value={inputAmount ? Number(inputAmount) * suiPric * (leverage[0] - 1) : 0}
+              value={
+                inputAmount
+                  ? Number(inputAmount) * suiPric * (leverage[0] - 1)
+                  : 0
+              }
               notation="standard"
               unit="BUCK"
               minFractionDigits={0}
@@ -187,7 +219,7 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           <div className="w-full flex justify-between">
             <div className="text-black text-xs">{`Max LTV ( SUI )`}</div>
             <FormatNumber
-              value={(1000/11).toFixed(2)}
+              value={(1000 / 11).toFixed(2)}
               unit="%"
               minFractionDigits={0}
               spaceWithUnit
