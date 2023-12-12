@@ -1,10 +1,8 @@
-export interface IStrategyCard {
-  title: string;
-  protocolName: string;
-  logo: string;
-  link: string;
-  description: string;
-}
+//Type
+
+export type BalanceList = {
+  [key: string]: number;
+};
 
 export type ACCEPT_ASSETS =
   | "SUI"
@@ -35,3 +33,12 @@ export type OKX_MarkPrice = {
   ];
   msg: string;
 };
+
+// Interface
+export interface IStrategyCard {
+  title: string;
+  protocolName: string;
+  logo: string;
+  link: string;
+  description: string;
+}

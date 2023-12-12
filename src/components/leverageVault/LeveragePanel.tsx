@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 import { useTicker } from "@/hooks/pricefeed/useTicker";
+import { useWallets } from "@mysten/dapp-kit";
 import FormatNumber from "../formats/formatNumber";
 
 interface IConvertPanelProps {
@@ -68,8 +69,8 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           <Slider
             defaultValue={[2]}
             max={3}
-            min={1.1}
-            step={0.01}
+            min={1}
+            step={0.5}
             className="mt-9"
             value={leverage}
             onValueChange={setLeverage}
