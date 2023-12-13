@@ -9,7 +9,8 @@ import {
   useSuiClient,
 } from "@mysten/dapp-kit";
 import { createBucketLeverageTx } from "@/lib/bucket/strategies";
-import { Link } from "lucide-react";
+import Link from "next/link";
+import { Link as LinkIcon } from "lucide-react";
 import { toast } from "react-toastify";
 
 interface IConvertPanelProps {
@@ -74,14 +75,14 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
           suiClient.waitForTransactionBlock({ digest: res.digest }).then(() => {
             if (!!res.digest) {
               toast.success(
-                <div>
-                  <Link
-                    target="_blank"
-                    href="https://app.bucketprotocol.io/position"
-                  >
-                    Success! Click to see your position
-                  </Link>
-                </div>
+                <Link
+                  className="flex items-center gap-1 pr-2"
+                  target="_blank"
+                  href="https://app.bucketprotocol.io/position"
+                >
+                  Success! Click to see your position
+                  <LinkIcon />
+                </Link>
               );
             } else {
               console.log("test");

@@ -10,18 +10,18 @@ export const MOCK_LIVE_STRATEGY: IStrategyCard[] = [
     for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
   },
   {
-    title: "LST Transformer",
-    protocolName: "Bucket Protocol",
-    logo: "/images/bucket.svg",
-    link: "/lst-vault/bucketProtocol",
-    description: `Users Deposit SUI and auto swap half for USDC and provide liquidity
-    for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
-  },
-  {
     title: "Leverage",
     protocolName: "Scallop",
     logo: "/images/scallop.svg",
     link: "/leverage-vault/scallop",
+    description: `Users Deposit SUI and auto swap half for USDC and provide liquidity
+    for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
+  },
+  {
+    title: "LST Transformer",
+    protocolName: "Bucket Protocol",
+    logo: "/images/bucket.svg",
+    link: "/lst-vault/bucketProtocol",
     description: `Users Deposit SUI and auto swap half for USDC and provide liquidity
     for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
   },
@@ -70,7 +70,7 @@ export const MOCK_SINGLE_LEVERAGE_VAULT_DATA = {
 
 export const FAQ = [
   {
-    title: "What is Starter ? How does it work ?",
+    title: "What is Starter and How Does It Work?",
     content: `Starter is a one-stop DeFi strategy vaults for Move ecosystem, 
     integrating protocols like lending, DEX, and LST.
     
