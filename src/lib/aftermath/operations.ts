@@ -5,7 +5,7 @@ import {
 } from "@mysten/sui.js/transactions";
 import { AFTERMATH_CONFIG } from "./config";
 import { COIN_TYPES, SYSTEM_STATE_OBJECT } from "../common/constants";
-import { txMoveCall } from "../utils/priceFeed/scallopParser";
+import { txMoveCall } from "../utils/parser/scallopParser";
 import { ScallopTxBlock } from "@scallop-io/sui-scallop-sdk";
 
 export function aftermathStakeSUI(

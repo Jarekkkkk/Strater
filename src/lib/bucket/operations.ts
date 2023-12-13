@@ -9,7 +9,7 @@ import { SUPRA_OJBECT_HOLDER_ID, SUPRA_PRICE_FEED_IDS } from "../supra/config";
 import { coinIntoBalance } from "../common/helpers";
 import { ScallopTxBlock } from "@scallop-io/sui-scallop-sdk";
 import { MoveCallTarget } from "../common/types";
-import { txMoveCall } from "../utils/priceFeed/scallopParser";
+import { txMoveCall } from "../utils/parser/scallopParser";
 
 export function bucketFlashBorrow(
   tx: TransactionBlock | ScallopTxBlock,

@@ -10,7 +10,7 @@ import { LstSymbol } from "./types";
 import { voloStakeSUI } from "../volo/operations";
 import { haedalStakeSUI } from "../haedal/operations";
 import { aftermathStakeSUI } from "../aftermath/operations";
-import { txMoveCall } from "../utils/priceFeed/scallopParser";
+import { txMoveCall } from "../utils/parser/scallopParser";
 import { ScallopTxBlock } from "@scallop-io/sui-scallop-sdk";
 
 export function newZeroCoin(

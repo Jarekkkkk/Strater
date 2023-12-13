@@ -5,7 +5,7 @@ import {
 } from "@mysten/sui.js/transactions";
 import { SYSTEM_STATE_OBJECT } from "../common/constants";
 import { VOLO_CONFIG } from "./config";
-import { txMoveCall } from "../utils/priceFeed/scallopParser";
+import { txMoveCall } from "../utils/parser/scallopParser";
 
 export function voloStakeSUI(
 	tx: TransactionBlock,
