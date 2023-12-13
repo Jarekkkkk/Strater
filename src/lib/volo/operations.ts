@@ -6,9 +6,10 @@ import {
 import { SYSTEM_STATE_OBJECT } from "../common/constants";
 import { VOLO_CONFIG } from "./config";
 import { txMoveCall } from "../utils/parser/scallopParser";
+import { ScallopTxBlock } from "@scallop-io/sui-scallop-sdk";
 
 export function voloStakeSUI(
-	tx: TransactionBlock,
+	tx: TransactionBlock | ScallopTxBlock,
 	suiCoin: TransactionArgument,
 ): TransactionResult {
   return txMoveCall(tx, {
