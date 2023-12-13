@@ -72,9 +72,9 @@ const Card = ({ cardInfo }: ICardProps) => {
             </div>
           </div>
         </div>
-        <div className="text-neutral-400 text-xs self-stretch mt-8">
+        {/* <div className="text-neutral-400 text-xs self-stretch mt-8">
           {description}
-        </div>
+        </div> */}
       </div>
     </Link>
   );

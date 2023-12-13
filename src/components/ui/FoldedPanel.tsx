@@ -44,7 +44,7 @@ const FoldedPanel = ({
       </div>
       <div
         className={cn(
-          "text-neutral-400 text-xs self-stretch max-md:max-w-full ease-in-out duration-300",
+          "text-neutral-400 text-xs xl:text-base self-stretch max-md:max-w-full ease-in-out duration-300",
           isClose ? "h-0 opacity-0" : contentHeight + " opacity-100",
           isHide && "hidden"
         )}

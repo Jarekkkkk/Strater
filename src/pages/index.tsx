@@ -9,7 +9,7 @@ export default function Home() {
     <div className="relative w-full justify-center items-center bg-[#ECECEE] flex flex-col xl:pt-25">
       <Header />
       <div className="flex w-full flex-col max-md:max-w-full bg-main bg-cover bg-center bg-no-repeat">
-        <div className="flex-col overflow-hidden self-stretch relative flex w-full pt-24 pb-36 px-20 max-md:max-w-full max-md:pb-24 max-md:px-5">
+        <div className="flex-col overflow-hidden self-stretch relative flex w-full pt-24 pb-24 px-20 max-md:max-w-full max-md:pb-24 max-md:px-5">
           <div className="relative self-center flex mb-0 w-full max-w-[1082px] flex-col max-md:max-w-full max-md:mb-2.5">
             <div className="items-start self-stretch flex flex-col max-md:max-w-full">
               <div className="text-black text-3xl self-stretch whitespace-nowrap max-md:max-w-full">

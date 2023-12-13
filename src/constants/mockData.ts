@@ -71,49 +71,27 @@ export const MOCK_SINGLE_LEVERAGE_VAULT_DATA = {
 export const FAQ = [
   {
     title: "What is Starter and How Does It Work?",
-    content: `Starter is a one-stop DeFi strategy vaults for Move ecosystem, 
-    integrating protocols like lending, DEX, and LST.
-    
-    We aim is to maximize the advantages of each protocol, 
-    simplifying complex on-chain operations for users and enhancing the efficiency of their capital utilization.`,
-    contentHeight: "h-27 xl:h-18",
+    content: `Starter is a one-stop DeFi strategy hub for the Sui ecosystem. By integrating protocols like lending, DEX, and LST, we simplify complex and tedious operations, allowing users to effortlessly enhance their capital efficiency and potentially increase their returns.`,
+    contentHeight: "h-27 xl:h-22",
   },
   {
-    title: "What are strategy Vaults ?",
-    content: `Strategy Vaults are the main product of Strater. 
-    On this page, users can find suitable strategy pools (Vaults) 
-    based on their risk preference, yield, and protocol attributes.
-    
-    Strater simplifies complex on-chain operations using Programmable Transactions, 
-    which can include deposit , borrow and swap in same transactions,
-    reducing the threshold for users to manually manage their assets.`,
-    contentHeight: "h-36 xl:h-18",
+    title: "What is a Vault?",
+    content: `Each Vault represents a series of specific on-chain operations and is the core product of Strater. Users can find a suitable Vault based on their risk preference, yield, and protocol attributes. Strater simplifies complex on-chain operations using Programmable Transactions, which can include multiple deposits, borrow, and swap operations within the same transaction block. From the user's perspective, this offers an experience where no additional funds are needed, nor is there a need to worry about parameter settings to achieve the desired outcome.`,
+    contentHeight: "h-52 xl:h-40",
   },
   {
-    title: "What is Leverage vaults do ?",
-    content: `Leverage Vaults primarily apply to lending protocols, 
-    allowing users to execute leverage with a single click.
-
-    This is realized through a cycle of loans based on Programmable Transactions.
-    Users first select the desired leverage; 
-    
-    then, upon depositing collateral and borrowing assets, 
-    they immediately swap these for more collateral on a DEX, 
-    repeating the process several times to achieve target leverage.
-    
-    Thus, even with over-collateralized limits, 
-    users can still borrow more tokens.`,
-    contentHeight: "h-44 xl:h-18",
+    title: "What Do Leverage Vaults Do?",
+    content: `Leverage Vaults are primarily used in lending protocols, enabling users to execute leverage with a single click. This is achieved through a series of folding  loans (also utilizing Programmable Transactions). Users only need to set the desired leverage level without worrying about the intermediary steps, and the setup of the correct collateral ratio since it is managed through flash loans.`,
+    contentHeight: "h-40 xl:h-26",
   },
   {
-    title: "What is LST and how it earn yield ? ",
-    content: `LST ( Liquid Staking Tokens ) Vaults operate 
-    by converting users' existing Sui collateral into interest-bearing 
-    LST assets such as afSUI, voloSUI, and HASUi.
-    
-    As LSTs are appreciating assets,
-    leveraging with LST theoretically allows borrowing of more assets,
-    while also potentially bringing in more yield.`,
-    contentHeight: "h-27 xl:h-18",
+    title: "What is Leveraged Staking?",
+    content: `Leveraged Staking involves using LST (Liquid Staking Tokens) as collateral for borrowing, and then converting the borrowed native SUI into LST assets. This process effectively enables users to hold more LST, thereby increasing their potential staking profits.`,
+    contentHeight: "h-27 xl:h-20",
+  },
+  {
+    title: "What Do LST Transformer Vaults Do?",
+    content: `LST Transformer Vaults function by converting users' existing Sui collateral into interest-bearing LST assets, without the need to close or withdraw the position.`,
+    contentHeight: "h-20 xl:h-16",
   },
 ];
