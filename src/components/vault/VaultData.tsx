@@ -8,15 +8,23 @@ const VaultData = () => {
     <div className="h-20 flex justify-between gap-10.5 mt-10 max-md:max-w-full max-md:flex-wrap max-md:justify-start max-md:gap-6 max-md:mt-10">
       {/* APR */}
       <div className="items-stretch self-stretch flex flex-col justify-between">
-        <span className="text-gray-400 text-base whitespace-nowrap">
-          APR Since Inception
-        </span>
-        <FormatNumber
-          value={3.68}
-          unit="%"
-          skeletonClass="w-20 h-12"
-          numberClass="text-black text-[32px] whitespace-nowrap"
-        />
+        <span className="text-gray-400 text-base whitespace-nowrap">APR</span>
+
+        <div className="flex items-center gap-1.5">
+          <FormatNumber
+            value={3.68}
+            unit="%"
+            skeletonClass="w-20 h-12"
+            numberClass="text-black text-[32px] whitespace-nowrap"
+          />
+          <span className="mt-2">~</span>
+          <FormatNumber
+            value={11.94}
+            unit="%"
+            skeletonClass="w-20 h-12"
+            numberClass="text-black text-[32px] whitespace-nowrap"
+          />
+        </div>
       </div>
       {/* AUM */}
       <div className="self-stretch flex flex-col justify-between">
