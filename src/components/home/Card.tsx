@@ -47,14 +47,23 @@ const Card = ({ cardInfo }: ICardProps) => {
         <div className="self-stretch flex w-full items-start justify-between gap-5 mt-8">
           <div className="items-start self-stretch flex flex-col">
             <div className="text-neutral-400 text-xs self-stretch whitespace-nowrap">
-              APR Since Inception
+              APR
             </div>
-            <FormatNumber
-              value={3.68}
-              unit="%"
-              skeletonClass="w-14.5 h-7.5"
-              numberClass="text-neutral-800 text-xl self-stretch whitespace-nowrap mt-2.5"
-            />
+            <div className="flex items-center gap-1.5">
+              <FormatNumber
+                value={3.98}
+                unit="%"
+                skeletonClass="w-14.5 h-7.5"
+                numberClass="text-neutral-800 text-xl self-stretch whitespace-nowrap mt-2.5"
+              />
+              <span className="mt-2">~</span>
+              <FormatNumber
+                value={11.94}
+                unit="%"
+                skeletonClass="w-14.5 h-7.5"
+                numberClass="text-neutral-800 text-xl self-stretch whitespace-nowrap mt-2.5"
+              />
+            </div>
           </div>
           <div className="items-end self-stretch flex flex-col">
             <div className="text-neutral-400 text-xs whitespace-nowrap self-end">

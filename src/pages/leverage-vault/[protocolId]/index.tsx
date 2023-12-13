@@ -47,19 +47,25 @@ const LeverageSingleVaultPage = () => {
                 {/* Info */}
                 <div className="items-stretch self-stretch flex flex-col max-md:max-w-full ">
                   <div className="text-black text-base max-md:max-w-full">
-                    Intro
+                    Description
                   </div>
-                  <div className="text-gray-400 text-xs mt-4.5 max-md:max-w-full max-md:mt-3">
+                  <div className="text-gray-400 text-xs mt-4.5 max-md:max-w-full max-md:mt-3 text-justify">
                     {vaultBasicInfo.info}
                   </div>
                 </div>
                 {/* Risk */}
                 <div className="items-stretch self-stretch flex flex-col max-md:max-w-full">
                   <div className="text-black text-base max-md:max-w-full">
-                    Risk
+                    How it works
                   </div>
                   <div className="text-gray-400 text-xs mt-4.5 max-md:max-w-full max-md:mt-3">
-                    {vaultBasicInfo.risk}
+                    <ul className="list-disc list-inside space-y-2">
+                      {vaultBasicInfo.howItWorks.contents.map((step, index) => (
+                        <li key={vaultBasicInfo.name + "_step_" + index}>
+                          {step}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
                 {/* Contract */}
