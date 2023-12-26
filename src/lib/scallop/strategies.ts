@@ -7,7 +7,7 @@ import {
   import { Scallop } from '@scallop-io/sui-scallop-sdk'
   import { bucketFlashBorrow, bucketFlashRepay } from "../bucket/operations";
   import { LstSymbol } from "../common/types";
-  import { coinFromBalance, stakeSUI } from "../common/helpers";
+  import { coinFromBalance, coinIntoBalance, stakeSUI } from "../common/helpers";
 import { COIN_TYPES } from "../common/constants";
   
   export async function createScallopLeverageTx(inputs: {
@@ -47,18 +47,22 @@ import { COIN_TYPES } from "../common/constants";
     // Simply Create an account, but the object returned by the instruction needs to be processed.
     const [obligation, obligationKey, hotPotato] = tx.openObligation();
     tx.addCollateral(obligation, stSuiCoin, lstSymbol?.toLowerCase() ?? 'sui');
+  
+    // 4. update oracle price
+    await tx.updateAssetPricesQuick(['sui', lstSymbol?.toLowerCase() ?? 'sui']);
     
-    // 4. borrow SUI from scallop
-    const suiAmount = Math.ceil(leverageAmount * 1.0005);
+    // 5. borrow SUI from scallop
+    const suiAmount = Math.ceil(leverageAmount * 1.002);
     const borrowedSuiCoin = await tx.borrow(obligation, obligationKey, suiAmount, 'sui');
     tx.returnObligation(obligation, hotPotato);
     tx.transferObjects([obligationKey], tx.pure(inputs.senderAddress, 'address'));
   
-    // 5. repay flashloan on bucket
+    // 6. repay flashloan on bucket
+    const repayment = coinIntoBalance(tx, COIN_TYPES.SUI, borrowedSuiCoin);
     bucketFlashRepay(tx, {
       coinSymbol: 'SUI',
-      repayment: borrowedSuiCoin,
-      flashReceipt: flashReceipt,
+      repayment,
+      flashReceipt,
     });
   
     return tx;

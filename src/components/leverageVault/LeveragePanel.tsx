@@ -12,6 +12,7 @@ import { createBucketLeverageTx } from "@/lib/bucket/strategies";
 import Link from "next/link";
 import { Link as LinkIcon } from "lucide-react";
 import { toast } from "react-toastify";
+import { createScallopLeverageTx } from "@/lib/scallop/strategies";
 
 interface IConvertPanelProps {
   stakeAmount: string;
@@ -60,10 +61,11 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
     ? Number(inputAmount) * suiPric * (leverage[0] - 1)
     : 0;
 
-    if (debtAmount < 10) {
-      toast.warning("Min debt amount in Bucket is 10");
-      return;
-    }
+    // if (debtAmount < 10) {
+    //   toast.warning("Min debt amount in Bucket is 10");
+    //   return;
+    // }
+
     const tx = await createBucketLeverageTx({
       suiClient: suiClient as any,
       senderAddress: account.address,
@@ -71,6 +73,15 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
       leverage: leverage[0],
       lstSymbol: "afSUI",
     });
+
+    // const tx = await createScallopLeverageTx({
+    //   // suiClient: suiClient as any,
+    //   senderAddress: account.address,
+    //   inputAmount: Math.floor(Number(inputAmount) * 10 ** 9),
+    //   leverage: leverage[0],
+    //   lstSymbol: "haSUI",
+    // });
+
 
     if (!tx) return;
     // tx.setGasBudget(50_000_000);
@@ -93,7 +104,6 @@ const LeveragePanel = ({ stakeAmount }: IConvertPanelProps) => {
               </Link>
             );
           } else {
-            console.log("test");
             toast.error("Exceed slippage! Try smaller amount");
           }
         });

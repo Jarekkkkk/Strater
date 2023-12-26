@@ -45,7 +45,7 @@ const SingleStrategyVaultPage = () => {
                         APR Since Inception
                       </div>
                       <div className="text-black text-3xl whitespace-nowrap mt-2.5">
-                        3.68%
+                        3.98%
                       </div>
                     </div>
                     <div className="self-stretch flex grow basis-[0%] flex-col">

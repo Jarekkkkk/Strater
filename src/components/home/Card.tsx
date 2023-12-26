@@ -12,6 +12,8 @@ interface ICardProps {
 const Card = ({ cardInfo }: ICardProps) => {
   const { title, protocolName, logo, link, description } = cardInfo;
   const [isHover, setIsHover] = useState(false);
+  const nativeAPR = 3.98;
+  const maxLeverage = 3;
 
   return (
     <Link
@@ -51,14 +53,14 @@ const Card = ({ cardInfo }: ICardProps) => {
             </div>
             <div className="flex items-center gap-1.5">
               <FormatNumber
-                value={3.98}
+                value={nativeAPR}
                 unit="%"
                 skeletonClass="w-14.5 h-7.5"
                 numberClass="text-neutral-800 text-xl self-stretch whitespace-nowrap mt-2.5"
               />
               <span className="mt-2">~</span>
               <FormatNumber
-                value={11.94}
+                value={nativeAPR * maxLeverage}
                 unit="%"
                 skeletonClass="w-14.5 h-7.5"
                 numberClass="text-neutral-800 text-xl self-stretch whitespace-nowrap mt-2.5"
