@@ -9,7 +9,6 @@ import {
   TransactionArgument,
 } from '@mysten/sui.js/transactions'
 import {
-  add_liquidity,
   close_position,
   collect_fee,
   open_position,

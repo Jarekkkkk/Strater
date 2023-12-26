@@ -2,7 +2,6 @@ import {
   TransactionBlock,
   TransactionArgument,
 } from '@mysten/sui.js/transactions'
-import { is } from '@mysten/sui.js'
 import { CLOCK_OBJECT, COIN_TYPES } from '../common/constants'
 import {
   coinFromBalance,
@@ -179,7 +178,7 @@ export function open_position_with_liquidity(
       }),
       tx.pure(amount0),
       tx.pure(amount1),
-      tx.pure(fixAmount0),
+      tx.pure(fixAmount:queueMicrotask-1),
       tx.object(CLOCK_OBJECT),
     ],
   })
