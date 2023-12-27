@@ -75,6 +75,7 @@ export async function adjustBuckSuiLiquidity(
       digest: coin.digest,
     }),
   )
+  if (coins0.length > 0) tx.mergeCoins(main0, coins0)
   // join_coin(tx, pool.coinTypeA, main0, coin)
   const symbol1 = getSymbolByType(pool.coinTypeB)
   if (!symbol1) throw new Error('unsupported coinType')
@@ -97,7 +98,7 @@ export async function adjustBuckSuiLiquidity(
     tx,
     pool,
     liq,
-    [main0, ...coins0],
+    [main0],
     [main1, coin1],
     amount0.toString(),
     amount1.toString(),
