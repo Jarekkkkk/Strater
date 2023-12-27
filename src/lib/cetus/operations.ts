@@ -115,23 +115,6 @@ export function collect_fee(
   return [balance0, balance1]
 }
 
-export function open_position(
-  tx: TransactionBlock,
-  pool: Pool,
-  lower_tick: number,
-  upper_tick: number,
-): TransactionArgument {
-  return tx.moveCall({
-    target: CETUS_CONFIG.openPositionTarget,
-    typeArguments: [pool.coinTypeA, pool.coinTypeB],
-    arguments: [
-      tx.sharedObjectRef(CETUS_CONFIG.globalConfigObj),
-      tx.object(pool.poolAddress),
-      tx.pure(asUintN(BigInt(lower_tick)).toString()),
-      tx.pure(asUintN(BigInt(upper_tick)).toString()),
-    ],
-  })
-}
 export function close_position(
   tx: TransactionBlock,
   pool: Pool,
@@ -147,12 +130,13 @@ export function close_position(
     ],
   })
 }
-export function open_position_with_liquidity(
+
+export function open_position_with_liquidity_by_fix_coin(
   tx: TransactionBlock,
   pool: Pool,
   liq: string,
-  coin0: TransactionResult[],
-  coin1: TransactionResult[],
+  coin0: TransactionResult,
+  coin1: TransactionResult,
   amount0: string,
   amount1: string,
   lower_tick: number,
@@ -162,21 +146,15 @@ export function open_position_with_liquidity(
   const isPosition = (pos: any): pos is Position =>
     pos.pos_object_id !== undefined
   tx.moveCall({
-    target: CETUS_CONFIG.openPositionWitLiquidityWithAllTarget,
+    target: CETUS_CONFIG.openPositionWithLiquidityByFixCoinTarget,
     typeArguments: [pool.coinTypeA, pool.coinTypeB],
     arguments: [
       tx.object(CETUS_CONFIG.globalConfigObj.objectId),
       tx.object(pool.poolAddress),
       tx.pure(asUintN(BigInt(lower_tick)).toString()),
       tx.pure(asUintN(BigInt(upper_tick)).toString()),
-      tx.makeMoveVec({
-        objects: coin0,
-        type: `0x2::coin::Coin<${pool.coinTypeA}>`,
-      }),
-      tx.makeMoveVec({
-        objects: coin1,
-        type: `0x2::coin::Coin<${pool.coinTypeB}>`,
-      }),
+      coin0,
+      coin1,
       tx.pure(amount0),
       tx.pure(amount1),
       tx.pure(fixedAmount0),

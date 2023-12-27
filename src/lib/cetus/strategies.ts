@@ -11,8 +11,8 @@ import {
 import {
   close_position,
   collect_fee,
-  open_position,
   open_position_with_liquidity,
+  open_position_with_liquidity_by_fix_coin,
   remove_liquiditiy,
 } from './operations'
 import {
@@ -93,13 +93,14 @@ export async function adjustBuckSuiLiquidity(
   const coin1 = tx.splitCoins(tx.gas, [
     tx.pure(Number(suiBalance - 50_000_000), 'u64'),
   ])
+  tx.mergeCoins(main1, [coin1])
 
-  open_position_with_liquidity(
+  open_position_with_liquidity_by_fix_coin(
     tx,
     pool,
     liq,
-    [main0],
-    [main1, coin1],
+    main0,
+    main1,
     amount0.toString(),
     amount1.toString(),
     lower_tick,
