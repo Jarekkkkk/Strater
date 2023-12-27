@@ -48,8 +48,17 @@ export const MOCK_LIVE_STRATEGY: IStrategyCard[] = [
     logo: '/images/cetus.png',
     // link: "/sui-lp-vault/naviProtocol",
     link: '/lp-management/cetus',
-    description: `Users Deposit SUI and auto swap half for USDC and provide liquidity
-    for SUI/BUCK on DEX to earn trading fees and SUI rewards.`,
+    description:
+      'User adjust their assets distribtions of BUCK/SUI pools in Cetus to maange their liquidity position with ease.',
+  },
+  {
+    title: 'LP Management',
+    protocolName: 'Kriya Protocol',
+    logo: '/images/kriya.png',
+    // link: "/sui-lp-vault/naviProtocol",
+    link: '/lp-management/kriya',
+    description:
+      'User adjust their assets distribtions of BUCK/SUI pools in Kriya to maange their liquidity position with ease.',
   },
 ]
 
