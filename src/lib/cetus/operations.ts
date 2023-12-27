@@ -43,7 +43,7 @@ export function cetusSwapUsdcToSui(
     ],
   })
 
-  tx.transferObjects([usdcOutCoin], senderAddress)
+  tx.transferObjects([usdcOutCoin], tx.pure(senderAddress))
   return suiOutCoin
 }
 
@@ -72,7 +72,7 @@ export function cetusSwapSuiToUsdc(
     ],
   })
 
-  tx.transferObjects([suiOutCoin], senderAddress)
+  tx.transferObjects([suiOutCoin], tx.pure(senderAddress))
   return usdcOutCoin
 }
 
@@ -156,7 +156,7 @@ export function open_position_with_liquidity(
   amount1: string,
   lower_tick: number,
   upper_tick: number,
-  fixAmount0: boolean,
+  fixedAmount0: boolean,
 ) {
   const isPosition = (pos: any): pos is Position =>
     pos.pos_object_id !== undefined
@@ -178,7 +178,7 @@ export function open_position_with_liquidity(
       }),
       tx.pure(amount0),
       tx.pure(amount1),
-      tx.pure(fixAmount:queueMicrotask-1),
+      tx.pure(fixedAmount0),
       tx.object(CLOCK_OBJECT),
     ],
   })
