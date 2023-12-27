@@ -1,6 +1,7 @@
 import {
   TransactionBlock,
   TransactionArgument,
+  TransactionResult,
 } from '@mysten/sui.js/transactions'
 import { CLOCK_OBJECT, COIN_TYPES } from '../common/constants'
 import {
@@ -150,8 +151,8 @@ export function open_position_with_liquidity(
   tx: TransactionBlock,
   pool: Pool,
   liq: string,
-  coin0: TransactionArgument[],
-  coin1: TransactionArgument[],
+  coin0: TransactionResult[],
+  coin1: TransactionResult[],
   amount0: string,
   amount1: string,
   lower_tick: number,
