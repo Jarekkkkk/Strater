@@ -11,7 +11,6 @@ import {
 import {
   close_position,
   collect_fee,
-  open_position_with_liquidity,
   open_position_with_liquidity_by_fix_coin,
   remove_liquiditiy,
 } from './operations'
