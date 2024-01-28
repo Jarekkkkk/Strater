@@ -1,22 +1,28 @@
-interface Protocol {
-  name: string
-  logo: string
-  info: string
-  howItWorks: {
-    type: 'number'
-    contents: string[]
-  }
-  contract: Record<
-    string,
-    {
-      name: string
-      address: string
-    }
-  >
+export enum LQMProtocol {
+  CETUS = 'Cetus',
+  KRIYA = 'Kriya',
 }
-export const LIQUIDITY_MANAGEMENT_LIST: Record<string, Protocol> = {
+export const LIQUIDITY_MANAGEMENT_LIST: Record<
+  string,
+  {
+    name: LQMProtocol
+    logo: string
+    info: string
+    howItWorks: {
+      type: 'number'
+      contents: string[]
+    }
+    contract: Record<
+      string,
+      {
+        name: string
+        address: string
+      }
+    >
+  }
+> = {
   cetus: {
-    name: 'Cetus',
+    name: LQMProtocol.CETUS,
     logo: '/images/cetus.png',
     info: 'Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
     howItWorks: {
@@ -37,7 +43,7 @@ export const LIQUIDITY_MANAGEMENT_LIST: Record<string, Protocol> = {
     },
   },
   kriya: {
-    name: 'Kriya',
+    name: LQMProtocol.KRIYA,
     logo: '/images/kriya.png',
     info: 'Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
     howItWorks: {

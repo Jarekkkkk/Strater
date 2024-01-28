@@ -24,7 +24,10 @@ import { formatNumber } from '@/lib/format'
 import { toast } from 'react-toastify'
 import { remove_liquiditiy } from '@/lib/cetus/operations'
 import { adjustBuckSuiLiquidity } from '@/lib/cetus/strategies'
-const AdjustPanel = () => {
+import { LQMProtocol } from '@/constants/liquidityManagement'
+import { getKriyaLPBalance } from '@/lib/kriya/getter'
+
+const AdjustPanel = ({ protocol }: { protocol: LQMProtocol }) => {
   const [inputAmount, setInputAmount] = useState('')
 
   const pool_address =
@@ -40,6 +43,11 @@ const AdjustPanel = () => {
   useEffect(() => {
     const getLPBalance = async () => {
       if (!account) return
+      const lp_tokens = await getKriyaLPBalance(
+        suiClient as any,
+        account.address,
+      )
+      console.log('lp', lp_tokens)
       const positions = await CetusSDK.Position.getPositionList(
         account.address,
         [pool_address],
@@ -201,7 +209,7 @@ const AdjustPanel = () => {
           Adjust your position in BUCK/SUI pool{' '}
         </span>
         <div className='flex max-w-full gap-5 mt-5.5 self-end'>
-          <span className='text-neutral-400 text-xs'>Staked LP</span>
+          <span className='text-neutral-400 text-xs'>Balance</span>
           <FormatNumber
             value={123.0}
             notation='standard'
@@ -211,7 +219,7 @@ const AdjustPanel = () => {
             numberClass='text-neutral-400 text-right text-xs underline self-stretch whitespace-nowrap'
           />
         </div>
-        <div className='items-center bg-neutral-100 self-stretch flex w-full gap-2 mt-3.5 pl-6 pr-8 py-6 border-[0.3px] border-solid border-gray-400 max-md:px-5'>
+        <div className='items-center bg-neutral-100 self-stretch flex w-full gap-2 mt-1.5 pl-6 pr-8 py-6 border-[0.3px] border-solid border-gray-400 max-md:px-5'>
           <input
             className='text-black text-base caret-black w-full placeholder:text-neutral-400 bg-transparent outline-none'
             type='text'
@@ -233,7 +241,18 @@ const AdjustPanel = () => {
             </span>
           </div>
         </div>
-        <div className='items-center bg-neutral-100 self-stretch flex w-full gap-2 mt-3.5 pl-6 pr-8 py-6 border-[0.3px] border-solid border-gray-400 max-md:px-5'>
+        <div className='flex max-w-full gap-5 mt-5.5 self-end'>
+          <span className='text-neutral-400 text-xs'>Balance</span>
+          <FormatNumber
+            value={123.0}
+            notation='standard'
+            maxFractionDigits={4}
+            minFractionDigits={2}
+            skeletonClass='w-16 h-4'
+            numberClass='text-neutral-400 text-right text-xs underline self-stretch whitespace-nowrap'
+          />
+        </div>
+        <div className='items-center bg-neutral-100 self-stretch flex w-full gap-2 mt-1.5 pl-6 pr-8 py-6 border-[0.3px] border-solid border-gray-400 max-md:px-5'>
           <input
             className='text-black text-base caret-black w-full placeholder:text-neutral-400 bg-transparent outline-none'
             type='text'

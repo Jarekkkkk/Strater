@@ -20,6 +20,8 @@ const LiquidityManagementPage = (props: Props) => {
 
   const vaultBasicInfo = LIQUIDITY_MANAGEMENT_LIST[protocolId as string]
 
+  console.log('protocolId', protocolId)
+
   if (!vaultBasicInfo) {
     router.push('/')
   }
@@ -106,7 +108,7 @@ const LiquidityManagementPage = (props: Props) => {
             </div>
           </div>
           {/* Control Panel */}
-          <AdjustPanel />
+          <AdjustPanel protocol={vaultBasicInfo.name} />
         </div>
       </div>
       <Footer />
